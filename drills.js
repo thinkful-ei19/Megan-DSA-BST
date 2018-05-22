@@ -16,7 +16,7 @@ function main(){
   return BST;
 }
 
-console.log(JSON.stringify(main()));
+// console.log(JSON.stringify(main()));
 
 
 function height(tree) {
@@ -75,28 +75,62 @@ function doYouEvenBST(tree){
   }
 
 }
-const tree={'key':0,'value':0,'left':{'key':1,'value':1,'left':null,'right':{'key':2,'value':2,'left':null,'right':null}}};
+const tree={'key':0,'value':0,'left':{'key':1,'value':1,'left':null,'right':{'key':2,'value':2,'left':null,'right':null}},'right':{'key':4,'value':4,'left':null,'right':null}};
 // console.log(doYouEvenBST(main()));
 
 
-// function find3rdLargest1(tree){
-//   let temporaryBST = new BinarySearchTree();
-//   let next;
-//   if(tree){
-//     temporaryBST.insert(tree.key, tree.value);
-//     find3rdLargest1(tree.left);
-//     find3rdLargest1(tree.right);
-//   }
-//   while(temporaryBST.right!==null){
-//     next=temporaryBST.right;
-//     console.log('nexxxxtttt', next);
-//     if(next.parent && next.parent.parent)
-//   }
-  
- 
+function findLargest(tree){
+  if(!tree.right){
+    return tree;
+  }
+  return findLargest(tree.right);
+}
 
-// }
-// console.log(find3rdLargest1(main()));
+function find3rdLargest(tree, second=0){
+  const largest=findLargest(tree);
+  let surrounding= tree.find(largest.key);
+
+  if(second!==0){
+    let secondLargest=tree.find(second);
+    let largestLeft= surrounding.left;
+
+    if(second.right && second.left && second.parent){
+      let parent=second.parent;
+      let left= surrounding.left;
+      let right= surrounding.right;
+
+      let biggestAround2nd=Math.max(parent.value, left.value, right.value);
+      return Math.max(biggestAround2nd, largestLeft);
+    }
+
+    if(!second.right && second.left && second.parent){
+      let parent=second.parent;
+      let left= surrounding.left;
+
+      let biggestAround2nd=Math.max(parent.value, left.value);
+      return Math.max(biggestAround2nd, largestLeft);
+    }
+
+    if(second.right && !second.left && second.parent){
+      let parent=second.parent;
+      let right= surrounding.right;
+  
+      let biggestAround2nd=Math.max(parent.value, right.value);
+      return Math.max(biggestAround2nd, largestLeft);
+    }
+
+
+  }
+  if(surrounding.parent && surrounding.left){
+    let parent= surrounding.parent;
+    let left= surrounding.left;
+
+    let bigger= Math.max(parent, left);
+    return find3rdLargest(tree, second+=bigger);
+  }
+
+}
+console.log(find3rdLargest(main()));
 
 function findSmallestBranch(tree){
   if (!tree) return 0;
@@ -119,4 +153,4 @@ function balancedBST (tree){
     return true;
   }
 }
-console.log(balancedBST(tree));
+// console.log(balancedBST(tree));
