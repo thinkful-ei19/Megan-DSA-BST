@@ -16,7 +16,7 @@ function main(){
   return BST;
 }
 
-// console.log(JSON.stringify(main()));
+console.log(JSON.stringify(main()));
 
 
 function height(tree) {
@@ -75,6 +75,48 @@ function doYouEvenBST(tree){
   }
 
 }
-const tree={'key':0,'value':0,'left':{'key':1,'value':1,'left':null,'right':{'key':2,'value':2,'left':null,'right':null}},'right':{'key':4,'value':4,'left':null,'right':null}};
-console.log(doYouEvenBST(main()));
+const tree={'key':0,'value':0,'left':{'key':1,'value':1,'left':null,'right':{'key':2,'value':2,'left':null,'right':null}}};
+// console.log(doYouEvenBST(main()));
 
+
+// function find3rdLargest1(tree){
+//   let temporaryBST = new BinarySearchTree();
+//   let next;
+//   if(tree){
+//     temporaryBST.insert(tree.key, tree.value);
+//     find3rdLargest1(tree.left);
+//     find3rdLargest1(tree.right);
+//   }
+//   while(temporaryBST.right!==null){
+//     next=temporaryBST.right;
+//     console.log('nexxxxtttt', next);
+//     if(next.parent && next.parent.parent)
+//   }
+  
+ 
+
+// }
+// console.log(find3rdLargest1(main()));
+
+function findSmallestBranch(tree){
+  if (!tree) return 0;
+  if(!tree.left && !tree.right) return 1;
+
+  let leftHeight = findSmallestBranch(tree.left);
+  let rightHeight = findSmallestBranch(tree.right);
+      
+  return Math.min(leftHeight, rightHeight) + 1;
+}
+
+function balancedBST (tree){
+  let max= height(tree);
+  let min= findSmallestBranch(tree);
+
+  if(max-1 > min){
+    return false;
+  }
+  else{
+    return true;
+  }
+}
+console.log(balancedBST(tree));
